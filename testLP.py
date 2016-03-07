@@ -15,6 +15,7 @@ print(all(map(lambda x :x>=0, k)))
 res = linprog(c, A_ub, b_ub, A_eq, b_eq,options=dict(bland=True))
 print res
 
+# added a place holder for comments
 
 
 import numpy as np

@@ -17,6 +17,7 @@ print res
 
 # added a place holder for comments
 # added a place holder for comments --another line
+# added a third line 
 
 import numpy as np
 from scipy.optimize import linprog

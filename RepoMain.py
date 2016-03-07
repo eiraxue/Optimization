@@ -1,7 +1,9 @@
 import csv
-from datamodel.RepoDataModel import Product
+
 from datamodel.RepoDataModel import Deal
+from datamodel.RepoDataModel import Product
 from datamodel.RepoDataModel import ProductAttribute
+
 
 def initialize_inventory(fileName):
     f = open(fileName)
@@ -64,13 +66,13 @@ borrowsFile = 'C:/Users/Ron/workspace_eclipse/RepoOptimization/input/ExternalBor
 borrowRates = createBorrowMarket(borrowsFile)
 print_dict(borrowRates)
 
-
-from ConstraintsGenerator import generateDealMKVconstraints
-from ConstraintsGenerator import calNumberOfVariablesConstraints
-from ConstraintsGenerator import parseLpSolverResult
+from LpSolverHelper import generateConstraintsObjF
+from LpSolverHelper import calNumberOfVariablesConstraints
+from LpResultParser import parseLpSolverResult
 print calNumberOfVariablesConstraints(inventory, deals, borrowRates)
 
-obj, A, b = generateDealMKVconstraints(inventory, deals, borrowRates)
+# generate constraints and objective function
+obj, A, b = generateConstraintsObjF(inventory, deals, borrowRates)
 
 print A
 print b[0]

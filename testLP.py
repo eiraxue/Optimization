@@ -16,8 +16,7 @@ res = linprog(c, A_ub, b_ub, A_eq, b_eq,options=dict(bland=True))
 print res
 
 # added a place holder for comments
-# added from intellij
-
+# added a place holder for comments --another line
 
 import numpy as np
 from scipy.optimize import linprog

@@ -5,6 +5,7 @@ from datamodel.RepoDataModel import Product
 from datamodel.RepoDataModel import ProductAttribute
 
 
+
 def initialize_inventory(fileName):
     f = open(fileName)
     csv_f = csv.reader(f)
@@ -52,17 +53,18 @@ def print_dict(aDict):
         print ele, aDict[ele]
 
 # parse the input data files
-inventoryFile = 'C:/Users/Ron/workspace_eclipse/RepoOptimization/input/InventoryPositions.csv'
+baseDir = "C:/Users/Ron/workspace_eclipse/Optimization/input/"
+inventoryFile = baseDir+ 'InventoryPositions.csv'
 inventory = initialize_inventory(inventoryFile)
 print_dict(inventory)
 
-dealsFile = 'C:/Users/Ron/workspace_eclipse/RepoOptimization/input/RepoDeals.csv'
-dealAssetReq = 'C:/Users/Ron/workspace_eclipse/RepoOptimization/input/RepoDealAssetClassRequirements.csv'
-dealCreditRq = 'C:/Users/Ron/workspace_eclipse/RepoOptimization/input/RepoDealCreditRatingRequirements.csv'
+dealsFile =  baseDir+ 'RepoDeals.csv'
+dealAssetReq =  baseDir+ 'RepoDealAssetClassRequirements.csv'
+dealCreditRq =  baseDir+ 'RepoDealCreditRatingRequirements.csv'
 deals = initialize_deals(dealsFile, dealAssetReq, dealCreditRq)
 print_dict(deals)
 
-borrowsFile = 'C:/Users/Ron/workspace_eclipse/RepoOptimization/input/ExternalBorrowRates.csv'
+borrowsFile = baseDir+ 'ExternalBorrowRates.csv'
 borrowRates = createBorrowMarket(borrowsFile)
 print_dict(borrowRates)
 

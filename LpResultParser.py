@@ -29,10 +29,13 @@ def parseLpSolverResult(result, inventory, deals, borrowRates):
     creditSize = len(creditDict)
 
     base_index = N_prod * N_deal
-    for asset in assetDict:
-        for credit in creditDict:
-            index_borrow = (assetDict[asset] - 1) * assetSize + (creditDict[credit] - 1)
-            bAlloc = BorrowAllocation(credit, asset, float(res[base_index + index_borrow]))
-            borrowAlloc.append(bAlloc)
+    for d in deals:
+        d_index = int(re.search(r'\d+', d).group())
+
+        for asset in assetDict:
+            for credit in creditDict:
+                index_borrow = (assetDict[asset] - 1) * creditSize + (creditDict[credit] - 1)
+                bAlloc = BorrowAllocation(d, credit, asset, float(res[base_index + (d_index-1)*N_bRate+ index_borrow]))
+                borrowAlloc.append(bAlloc)
 
     return collAlloc, borrowAlloc

@@ -114,10 +114,11 @@ class CollateralAllocation:
         return "%s, %s, %f" % (self.prod, self.deal, self.qty)
 
 class BorrowAllocation:
-    def __init__(self, credit, asset, mkv):
+    def __init__(self, deal, credit, asset, mkv):
+        self.deal = deal
         self.credit =credit
         self.asset = asset
         self.mkv = mkv
 
     def __str__(self):
-        return "%s, %s, %f" % (self.credit, self.asset, self.mkv)
+        return "%s %s, %s, %f" % (self.deal, self.credit, self.asset, self.mkv)

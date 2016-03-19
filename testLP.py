@@ -46,3 +46,5 @@ x2_bounds = (-np.inf, np.inf)
 
 res = linprog(c, A_ub=A, b_ub=b, bounds=(c0_bounds, x1_bounds, x2_bounds), options={"disp": True})
 print res
+
+print c[0:3]

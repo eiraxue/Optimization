@@ -54,6 +54,7 @@ def print_dict(aDict):
 
 # parse the input data files
 baseDir = "C:/Users/Ron/workspace_eclipse/Optimization/input/"
+
 inventoryFile = baseDir+ 'InventoryPositions.csv'
 inventory = initialize_inventory(inventoryFile)
 print_dict(inventory)

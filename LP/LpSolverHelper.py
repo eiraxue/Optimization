@@ -135,6 +135,5 @@ def calNumberOfVariablesConstraints(inventory, deals, borrowRates):
     for ele in deals:
         d = deals[ele]
         N_C += d.getConstraintsN()
-    print "total variable is %f" % N
-    print "total constraints is %f" % N_C
+
     return N, N_C

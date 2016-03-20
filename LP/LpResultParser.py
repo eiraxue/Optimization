@@ -1,8 +1,8 @@
 import re
 
 from LpSolverHelper import calNumberOfVariablesConstraints
-from datamodel.RepoDataModel import BorrowAllocation
-from datamodel.RepoDataModel import CollateralAllocation
+
+import datamodel.RepoAllocModel as allocModel
 
 
 def parseLpSolverResult(result, inventory, deals, borrowRates):
@@ -19,7 +19,7 @@ def parseLpSolverResult(result, inventory, deals, borrowRates):
         for d in deals:
             d_index = int(re.search(r'\d+', d).group())
             alloc_qty = res[(p_index - 1) * N_prod + d_index - 1]
-            alloc = CollateralAllocation(p, d, float(alloc_qty))
+            alloc = allocModel.CollateralAllocation(p, d, float(alloc_qty))
             collAlloc.append(alloc)
 
     borrowAlloc = []
@@ -35,7 +35,8 @@ def parseLpSolverResult(result, inventory, deals, borrowRates):
         for asset in assetDict:
             for credit in creditDict:
                 index_borrow = (assetDict[asset] - 1) * creditSize + (creditDict[credit] - 1)
-                bAlloc = BorrowAllocation(d, credit, asset, float(res[base_index + (d_index-1)*N_bRate+ index_borrow]))
+                bAlloc = allocModel.BorrowAllocation(d, credit, asset, float(
+                        res[base_index + (d_index - 1) * N_bRate + index_borrow]))
                 borrowAlloc.append(bAlloc)
 
     return collAlloc, borrowAlloc

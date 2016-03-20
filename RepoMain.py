@@ -4,6 +4,9 @@ from datamodel.RepoDataModel import Deal
 from datamodel.RepoDataModel import Product
 from datamodel.RepoDataModel import ProductAttribute
 
+from datamodel.RepoAllocModel import BorrowAllocation
+from datamodel.RepoAllocModel import CollateralAllocation
+
 
 
 def initialize_inventory(fileName):
@@ -12,7 +15,7 @@ def initialize_inventory(fileName):
     i = 0
     inventory = {}
     for row in csv_f:
-        inventory[row[0]]=(Product(row[0], float(row[1]), row[2], row[3], float(row[4])))
+        inventory[row[0]]=Product(row[0], float(row[1]), row[2], row[3], float(row[4]))
     return inventory
 
 def initialize_deals(dealsFile, dealAssetReq, dealCreditRq):
@@ -43,6 +46,12 @@ def createBorrowMarket(borrowFile):
         borrowRates[attr] =  float(row[2])/100
     return borrowRates
 
+def writeInventoryAlloc(fileName, inventoryAlloc):
+    f= open(fileName,'wt')
+    writer = csv.writer(f)
+    for ele in inventoryAlloc:
+        writer.writerow((ele.getProduct(),  ele.getDeal(),   ele.getQty()))
+
 
 def print_List(aList):
     for ele in aList:
@@ -69,26 +78,28 @@ borrowsFile = baseDir+ 'ExternalBorrowRates.csv'
 borrowRates = createBorrowMarket(borrowsFile)
 print_dict(borrowRates)
 
-from LpSolverHelper import generateConstraintsObjF
-from LpSolverHelper import calNumberOfVariablesConstraints
-from LpResultParser import parseLpSolverResult
-print calNumberOfVariablesConstraints(inventory, deals, borrowRates)
+from LP import LpResultParser, LPsolver, LpSolverHelper
+
+# calculate the number of variables and constraints
+print LpSolverHelper.calNumberOfVariablesConstraints(inventory, deals, borrowRates)
 
 # generate constraints and objective function
-obj, A, b = generateConstraintsObjF(inventory, deals, borrowRates)
+obj, A, b = LpSolverHelper.generateConstraintsObjF(inventory, deals, borrowRates)
 
 print A
 print b[0]
 print obj[0]
 
 
-from LPsolver import RepoLPsolver
 
-result = RepoLPsolver(obj[0],A, b[0])
+result = LPsolver.RepoLPsolver(obj[0], A, b[0])
 print result
-collAlloc , borrowAlloc = parseLpSolverResult(result, inventory, deals, borrowRates)
+collAlloc , borrowAlloc = LpResultParser.parseLpSolverResult(result, inventory, deals, borrowRates)
 print_List(collAlloc)
 print_List(borrowAlloc)
+
+CollAllocName = baseDir +"CollAlloc.csv"
+writeInventoryAlloc(CollAllocName, collAlloc)
 
 
 creditDict = {"AAA":1, "AA": 2, "A": 3, "BBB": 4, "BB": 5, "B": 6}
